@@ -1,0 +1,44 @@
+image: node:latest
+
+# Pipeline
+stages:
+  - install
+  - build
+  - test
+
+variables:
+  npm_config_cache: '$CI_PROJECT_DIR/.npm'
+  CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
+
+cache:
+  key:
+    files:
+      - package.json
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules
+
+# Jobs
+install_dependencies:
+  stage: install
+  script:
+    - npm ci --cache .npm --prefer-offline
+  artifacts:
+    paths:
+      - node_modules/
+
+bundle_app:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+
+e2etest:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: test
+  script:
+    - echo "Run tests in headless mode"
+    - npm run start:ci

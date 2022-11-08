@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+
+.movieBackdrop {
+  margin-top: 10px;
+  width: 90%;
+}
+
+.singleFilm {
+  color: black;
+  margin: 0 auto;
+}
+
+.singleFilmBox {
+  display: flex;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 35vw;
+}
+
+.glassbox {
+  box-sizing: border-box;
+  padding: 3% 2%;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 10px 50px 0 rgb(31 38 135 / 20%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 15%);
+}
+
+.poster {
+  border-radius: 10px;
+  float: left;
+  width: 24%;
+  box-shadow: 10px 10px 5px #ccc;
+  -moz-box-shadow: 10px 10px 5px #ccc;
+  -webkit-box-shadow: 10px 10px 5px #ccc;
+  -khtml-box-shadow: 10px 10px 5px #ccc;
+}
+
+.description h1 {
+  display: block;
+  margin: 20px 50px;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 50px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: rgba(0, 0, 0, 0.8);
+  -webkit-font-smoothing: antialiased;
+}
+
+.description p {
+  display: block;
+  font-family: 'Muli', sans-serif;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 400;
+  line-height: 1.58;
+  font-size: 25px;
+  margin-top: 2%;
+  margin-left: 30%;
+  width: 65%;
+}
+
+.buttonRow {
+  position: absolute;
+  right: 10%;
+  bottom: 15%;
+}
+
+.buttonRow .btn {
+  margin: 10px;
+  font-size: 18px;
+  border-radius: 30px;
+}
+
+@media (max-width: 1600px) {
+  .description h1 {
+    font-size: 30px;
+  }
+  .description p {
+    font-size: 20px;
+  }
+  .buttonRow {
+    bottom: 8%;
+  }
+  .buttonRow .btn {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .description h1 {
+    font-size: 20px;
+  }
+  .description p {
+    font-size: 13px;
+  }
+  .buttonRow {
+    bottom: 5%;
+  }
+  .buttonRow .btn {
+    font-size: 10px;
+    padding: 2;
+  }
+}
