@@ -1,6 +1,9 @@
 let movies;
 let tv_shows;
 let people;
+let movie_credit_people;
+let tv_credit_people;
+let credit_work;
 
 describe("Navigation", () => {
   before(() => {
@@ -13,13 +16,11 @@ describe("Navigation", () => {
       `https://api.themoviedb.org/3/tv/popular?api_key=${Cypress.env("TMDB_KEY")}&language=en-US&include_adult=false&include_video=false&page=1`
     ).its("body").then((response) => {
       tv_shows = response.results;
-      console.log(movies);
     });
     cy.request(
       `https://api.themoviedb.org/3/person/popular?api_key=${Cypress.env("TMDB_KEY")}&language=en-US&include_adult=false&include_video=false&page=1`
     ).its("body").then((response) => {
       people = response.results;
-      console.log(movies);
     });
   });
 
@@ -146,6 +147,50 @@ describe("Navigation", () => {
       cy.get("div[class='movie-card']").eq(4).find("a").click();
       cy.url().should("include", `/movie/${movies[0].id}`);
       cy.url().should("not.include", `/account/favorites`);
+    });
+  });
+
+  describe("From a detail page to another detail page", () => {
+    beforeEach(() => {
+      cy.request(
+        `https://api.themoviedb.org/3/movie/${movies[0].id}/credits?api_key=${Cypress.env("TMDB_KEY")}&language=en-US`
+      ).its("body").then((response) => {
+        movie_credit_people = response.cast;
+      });
+      cy.request(
+        `https://api.themoviedb.org/3/tv/${tv_shows[0].id}/credits?api_key=${Cypress.env("TMDB_KEY")}&language=en-US`
+      ).its("body").then((response) => {
+        tv_credit_people = response.cast;
+      });
+      cy.request(
+        `https://api.themoviedb.org/3/person/${people[7].id}/combined_credits?api_key=${Cypress.env("TMDB_KEY")}&language=en-US`
+      ).its("body").then((response) => {
+        credit_work = response.cast;
+      });
+    });
+    it("navigates to one person details page from a movie detail page", () => {
+      cy.get("button").contains("Movies").click();
+      cy.get("li").contains("Popular").click();
+      cy.get("div[class='movie-card']").eq(0).find("a").click();
+      cy.get("div[class='castCard']").eq(0).find("a").click();
+      cy.url().should("include", `/people/${movie_credit_people[0].id}`);
+      cy.url().should("not.include", `/movie/${movies[0].id}`);
+    });
+    it("navigates to one person details page from a tv detail page", () => {
+      cy.get("button").contains("TV_Shows").click();
+      cy.get("li").contains("Popular").click();
+      cy.get("div[class='movie-card']").eq(0).find("a").click();
+      cy.get("div[class='castCard']").eq(0).find("a").click();
+      cy.url().should("include", `/people/${tv_credit_people[0].id}`);
+      cy.url().should("not.include", `/tv/${tv_shows[0].id}`);
+    });
+    it("navigates to one movie/tv details page from a person detail page", () => {
+      cy.get("button").contains("People").click();
+      cy.get("li").contains("Popular").click();
+      cy.get("div[class='movie-card']").eq(7).find("a").click();
+      cy.get("div[class='castCard']").eq(0).find("a").click();
+      cy.url().should("include", `/movie/${credit_work[0].id}` || `/tv/${credit_work[0].id}`);
+      cy.url().should("not.include", `/people/${people[7].id}`);
     });
   });
 });
