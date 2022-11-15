@@ -90,7 +90,7 @@ const HomePage = () => {
           <h2 style={styles.h2}>Upcoming Movies</h2>
           <Button
             component={Link}
-            to="/movie/top-rated"
+            to="/movie/upcoming"
             variant="contained"
             color="primary"
             style={styles.button}>
