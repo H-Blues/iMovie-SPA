@@ -5,6 +5,8 @@ let movie_credit_people;
 let tv_credit_people;
 let credit_work;
 
+Cypress.config('defaultCommandTimeout', 8000);
+
 describe("Navigation", () => {
   before(() => {
     cy.request(
@@ -31,26 +33,22 @@ describe("Navigation", () => {
   describe("The site header", () => {
     describe("when the viewport is desktop scale", () => {
       it("navigate to movie page via the dropdown menu", () => {
-        cy.get("button").contains("Movies").click();
-        cy.get("li").contains("Popular").click();
-        cy.url().should("include", `/movie`);
-        cy.get("a").contains("iMovies").click();
-        cy.url().should("include", `/`);
+        cy.clickMainMenuOnPC('Movies');
+        cy.checkUrl('/movie');
+        cy.clickLogoOnPC();
+        cy.checkUrl('/');
       });
       it("navigate to TV page via the dropdown menu", () => {
-        cy.get("button").contains("TV_Shows").click();
-        cy.get("li").contains("Popular").click();
-        cy.url().should("include", `/tv`);
+        cy.clickMainMenuOnPC('TV_Shows');
+        cy.checkUrl('/tv');
       });
       it("navigate to people page via the dropdown menu", () => {
-        cy.get("button").contains("People").click();
-        cy.get("li").contains("Popular").click();
-        cy.url().should("include", `/people`);
+        cy.clickMainMenuOnPC('People');
+        cy.checkUrl('/people');
       });
       it("navigate to favorite page via the dropdown menu", () => {
-        cy.get("button[aria-label='Account settings']").click();
-        cy.get("a").contains("My Favorite").click();
-        cy.url().should("include", `/favourite`);
+        cy.clickMyFavorite();
+        cy.checkUrl('/favourite');
       });
     });
     describe(
@@ -61,26 +59,22 @@ describe("Navigation", () => {
       },
       () => {
         it("navigate to movie page via the menu link", () => {
-          cy.get("header").find("button").find("svg").click();
-          cy.get("li").contains('Movies').click();
-          cy.url().should("include", `/movie`);
-          cy.get("a[class='MuiTypography-root MuiTypography-h5 MuiTypography-noWrap css-1lfs2tq-MuiTypography-root']").contains("iMovies").click();
-          cy.url().should("include", `/`);
+          cy.clickMainMenuOnMobile('Movies');
+          cy.checkUrl('/movie');
+          cy.clickLogoOnMobile();
+          cy.checkUrl('/');
         });
         it("navigate to TV page via the menu link", () => {
-          cy.get("header").find("button").find("svg").click();
-          cy.get("li").contains('TV_Shows').click();
-          cy.url().should("include", `/tv`);
+          cy.clickMainMenuOnMobile('TV_Shows');
+          cy.checkUrl('/tv');
         });
         it("navigate to people page via the menu link", () => {
-          cy.get("header").find("button").find("svg").click();
-          cy.get("li").contains('People').click();
-          cy.url().should("include", `/people`);
+          cy.clickMainMenuOnMobile('People');
+          cy.checkUrl('/people');
         });
         it("navigate to favorite page via the menu link", () => {
-          cy.get("button[aria-label='Account settings']").click();
-          cy.get("a").contains("My Favorite").click();
-          cy.url().should("include", `/account/favourite`);
+          cy.clickMyFavorite();
+          cy.checkUrl('/account/favourite');
         });
       }
     );
@@ -89,30 +83,30 @@ describe("Navigation", () => {
   describe("The touch slider in home page", () => {
     describe("navigates to list page via button", () => {
       it("to popular movie page", () => {
-        cy.get("div[class='sectionHeader']").find("a[href='/movie']").contains("MORE").click();
-        cy.url().should("include", '/movie');
+        cy.clickMore('/movie');
+        cy.checkUrl('/movie');
       });
       it("to top rated movie page", () => {
-        cy.get("div[class='sectionHeader']").find("a[href='/movie/top-rated']").contains("MORE").click();
-        cy.url().should("include", '/top-rated');
+        cy.clickMore('/movie/top-rated');
+        cy.checkUrl('/movie/top-rated');
       });
       it("to upcoming movie page", () => {
-        cy.get("div[class='sectionHeader']").find("a[href='/movie/upcoming']").contains("MORE").click();
-        cy.url().should("include", '/upcoming');
+        cy.clickMore('/movie/upcoming');
+        cy.checkUrl('/movie/upcoming');
       });
       it("to popular tv page", () => {
-        cy.get("div[class='sectionHeader']").find("a[href='/tv']").contains("MORE").click();
-        cy.url().should("include", '/tv');
+        cy.clickMore('/tv');
+        cy.checkUrl('/tv');
       });
     });
     describe("navigates to detail page via name or title", () => {
       it("to movie detail page", () => {
         cy.get("div[class='movie-card']").eq(0).find("a").click();
-        cy.url().should("include", `/movie/${movies[0].id}`);
+        cy.checkUrl(`/movie/${movies[0].id}`);
       });
       it("to tv detail page", () => {
         cy.get("div[class='movie-card']").eq(120).find("a").click();
-        cy.url().should("include", `/tv/${tv_shows[0].id}`);
+        cy.checkUrl(`/tv/${tv_shows[0].id}`);
       });
     });
   });
@@ -121,17 +115,17 @@ describe("Navigation", () => {
     it("popular movie page to a movie detail", () => {
       cy.visit('/movie');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
-      cy.url().should("include", `/movie/${movies[0].id}`);
+      cy.checkUrl(`/movie/${movies[0].id}`);
     });
     it("popular tv page to a tv detail", () => {
       cy.visit('/tv');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
-      cy.url().should("include", `/tv/${tv_shows[0].id}`);
+      cy.checkUrl(`/tv/${tv_shows[0].id}`);
     });
     it("popular people page to a person detail", () => {
       cy.visit('/people');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
-      cy.url().should("include", `/people/${people[0].id}`);
+      cy.checkUrl(`/people/${people[0].id}`);
     });
   });
 
@@ -139,19 +133,17 @@ describe("Navigation", () => {
     beforeEach(() => {
       cy.get("div[class='movie-card']").eq(0).find("a").click();
       cy.get("button[aria-label='add to favorites']").click();
-      cy.get("button[aria-label='Account settings']").click();
-      cy.get("a").contains("My Favorite").click();
+      cy.clickMyFavorite();
     });
-    it("navigates to the movie details page from favourites page and change browser URL", () => {
-      cy.url().should("include", `/account/favourite`);
+    it("navigates to the movie details page from favourites page", () => {
+      cy.checkUrl(`/account/favourite`);
       cy.get("div[class='movie-card']").eq(4).find("a").click();
-      cy.url().should("include", `/movie/${movies[0].id}`);
-      cy.url().should("not.include", `/account/favorites`);
+      cy.checkUrl(`/movie/${movies[0].id}`);
     });
   });
 
   describe("From a detail page to another detail page", () => {
-    beforeEach(() => {
+    before(() => {
       cy.request(
         `https://api.themoviedb.org/3/movie/${movies[0].id}/credits?api_key=${Cypress.env("TMDB_KEY")}&language=en-US`
       ).its("body").then((response) => {
@@ -168,25 +160,22 @@ describe("Navigation", () => {
         credit_work = response.cast;
       });
     });
-    it("navigates to one person details page from a movie detail page", () => {
-      cy.get("button").contains("Movies").click();
-      cy.get("li").contains("Popular").click();
+    it("navigates to a person detail page from a movie detail page", () => {
+      cy.visit('/movie');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
       cy.get("div[class='castCard']").eq(0).find("a").click();
       cy.url().should("include", `/people/${movie_credit_people[0].id}`);
       cy.url().should("not.include", `/movie/${movies[0].id}`);
     });
-    it("navigates to one person details page from a tv detail page", () => {
-      cy.get("button").contains("TV_Shows").click();
-      cy.get("li").contains("Popular").click();
+    it("navigates to a person detail page from a tv detail page", () => {
+      cy.visit('/tv');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
       cy.get("div[class='castCard']").eq(0).find("a").click();
       cy.url().should("include", `/people/${tv_credit_people[0].id}`);
       cy.url().should("not.include", `/tv/${tv_shows[0].id}`);
     });
-    it("navigates to one movie/tv details page from a person detail page", () => {
-      cy.get("button").contains("People").click();
-      cy.get("li").contains("Popular").click();
+    it("navigates to a movie/tv detail page from a person detail page", () => {
+      cy.visit('/people');
       cy.get("div[class='movie-card']").eq(7).find("a").click();
       cy.get("div[class='castCard']").eq(0).find("a").click();
       cy.url().should("include", `/movie/${credit_work[0].id}` || `/tv/${credit_work[0].id}`);
