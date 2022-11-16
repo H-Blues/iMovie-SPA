@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { getTopRatedMovies } from '../../api/tmdbApi';
+import { getPeople } from '../../api/tmdbApi';
 import { useQuery } from 'react-query';
-import PageTemplate from '../../components/templateMovieList';
+import PageTemplate from '../../components/templatePersonList';
 import Spinner from '../../components/spinner';
 import Pagination from '@mui/material/Pagination';
 
-const PopularMoviePage = () => {
+const PopularPeoplePage = () => {
   let [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   const { data, error, isLoading, isError } = useQuery(
-    [`topRatedMovie${page}`, { page: page }],
-    getTopRatedMovies
+    [`popularPeople${page}`, { page: page }],
+    getPeople
   );
 
   if (isLoading) {
@@ -22,11 +22,11 @@ const PopularMoviePage = () => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const movies = data.results;
+  const people = data.results;
 
   return (
     <>
-      <PageTemplate title="Top Rated Movies" movies={movies} type="movie" />
+      <PageTemplate title="Popular People" people={people} />
       <Pagination
         count={10}
         page={page}
@@ -38,4 +38,4 @@ const PopularMoviePage = () => {
     </>
   );
 };
-export default PopularMoviePage;
+export default PopularPeoplePage;

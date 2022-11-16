@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getUpcoming } from '../../api/tmdbApi';
 import { useQuery } from 'react-query';
-import PageTemplate from '../../components/movieListPage';
+import PageTemplate from '../../components/templateMovieList';
 import Spinner from '../../components/spinner';
 import Pagination from '@mui/material/Pagination';
 
@@ -26,7 +26,7 @@ const PopularMoviePage = () => {
 
   return (
     <>
-      <PageTemplate title="Upcoming Movies" movies={movies} />
+      <PageTemplate title="Upcoming Movies" movies={movies} type="movie" />
       <Pagination
         count={10}
         page={page}

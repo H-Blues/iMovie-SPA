@@ -10,7 +10,7 @@ const list = [
 
 const path = [
   {
-    Movies: ['/movies', '/movies/upcoming', '/movies/top-rated'],
+    Movies: ['/movie', '/movie/upcoming', '/movie/top-rated'],
     TV_Shows: ['/tv'],
     People: ['/people'],
   },
@@ -20,9 +20,7 @@ export const MenuContext = React.createContext({ list: list, path: path });
 
 const MenuContextProvider = (props) => {
   return (
-    <MenuContext.Provider value={{ list: list, path: path }}>
-      {props.children}
-    </MenuContext.Provider>
+    <MenuContext.Provider value={{ list: list, path: path }}>{props.children}</MenuContext.Provider>
   );
 };
 export default MenuContextProvider;
