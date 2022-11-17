@@ -37,7 +37,7 @@ bundle_app:
       - build/
 
 e2etest:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
+  image: cypress/browsers:node14.16.0-chrome90-ff88
   stage: test
   script:
     - echo "Run tests in headless mode"
