@@ -29,35 +29,20 @@ describe("Base tests", () => {
 
   describe("The home page", () => {
     it("displays 4 movie backdrops and 1 slogan", () => {
-      cy.get("div[class='swiper-wrapper']")
-        .should('have.length', 9)
-        .eq(0).find("h1")
-        .should("have.length", 4);
+      cy.checkSwiperNum(0, "h1", 4);
       cy.get(".MuiTypography-h2").contains("Find you like");;
     });
     it("displays 20 popular movies", () => {
-      cy.get("div[class='swiper-wrapper")
-        .should('have.length', 9)
-        .eq(1).find("a")
-        .should("have.length", 20);
+      cy.checkSwiperNum(1, "a", 20);
     });
     it("displays 20 top-rated movies", () => {
-      cy.get("div[class='swiper-wrapper")
-        .should('have.length', 9)
-        .eq(3).find("a")
-        .should("have.length", 20);
+      cy.checkSwiperNum(3, "a", 20);
     });
     it("displays 20 upcoming movies", () => {
-      cy.get("div[class='swiper-wrapper")
-        .should('have.length', 9)
-        .eq(5).find("a")
-        .should("have.length", 20);
+      cy.checkSwiperNum(5, "a", 20);
     });
     it("displays 20 popular tv shows", () => {
-      cy.get("div[class='swiper-wrapper")
-        .should('have.length', 9)
-        .eq(7).find("a")
-        .should("have.length", 20);
+      cy.checkSwiperNum(7, "a", 20);
     });
   });
 
@@ -70,10 +55,7 @@ describe("Base tests", () => {
       cy.get(".movie-card").should("have.length", 20);
     });
     it("displays the correct movie titles", () => {
-      cy.get("a[class='MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom css-17lvz15-MuiTypography-root']")
-        .each(($card, index) => {
-          cy.wrap($card).contains(movies[index].title);
-        });
+      cy.checkCardTitle(movies);
     });
   });
 
@@ -86,10 +68,7 @@ describe("Base tests", () => {
       cy.get(".movie-card").should("have.length", 20);
     });
     it("displays the correct tv titles", () => {
-      cy.get("a[class='MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom css-17lvz15-MuiTypography-root']")
-        .each(($card, index) => {
-          cy.wrap($card).contains(tv_shows[index].name);
-        });
+      cy.checkCardTitle(tv_shows);
     });
   });
 
@@ -102,13 +81,9 @@ describe("Base tests", () => {
       cy.get(".movie-card").should("have.length", 20);
     });
     it("displays the correct people name", () => {
-      cy.get("a[class='MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom css-17lvz15-MuiTypography-root']")
-        .each(($card, index) => {
-          cy.wrap($card).contains(people[index].name);
-        });
+      cy.checkCardTitle(people);
     });
   });
-
 
   describe("The detail page", () => {
     before(() => {
@@ -140,47 +115,24 @@ describe("Base tests", () => {
     it("displays the movie title, overview, genres and credits", () => {
       cy.visit('/movie');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
+      cy.checkUrl(`/movie/${movie.id}`);
       Cypress.on('fail', (error) => {
         if (!error.message.includes(`find content`)) {
           throw error;
         }
       });
-      cy.checkUrl(`/movie/${movie.id}`);
-      cy.get("h1").contains(movie.title);
-      cy.get("p[class='summary']").contains(movie.overview);
-      cy.get("div[class='contentDetail']").within(() => {
-        const genreChipLabels = movie.genres.map((g) => g.name);
-        cy.get(".MuiChip-label").each(($card, index) => {
-          cy.wrap($card).contains(genreChipLabels[index]);
-        });
-      });
-      cy.get("div[class='castCard']").within(() => {
-        const creditNames = movieCredits.map((c) => c.name);
-        const creditNamesShown = creditNames.length >= 5 ? creditNames.slice(0, 5) : creditNames;
-        cy.get("a").each(($person, index) => {
-          cy.wrap($person).contains(creditNamesShown[index]);
-        });
-      });
+      cy.checkItemDetail(movie, movieCredits);
     });
     it("displays the tv name, overview, genres and credits", () => {
       cy.visit('/tv');
       cy.get("div[class='movie-card']").eq(0).find("a").click();
       cy.checkUrl(`/tv/${tv.id}`);
-      cy.get("h1").contains(tv.name);
-      cy.get("p[class='summary']").contains(tv.overview);
-      cy.get("div[class='contentDetail']").within(() => {
-        const genreChipLabels = tv.genres.map((g) => g.name);
-        cy.get(".MuiChip-label").each(($card, index) => {
-          cy.wrap($card).contains(genreChipLabels[index]);
-        });
+      Cypress.on('fail', (error) => {
+        if (!error.message.includes(`find content`)) {
+          throw error;
+        }
       });
-      cy.get("div[class='castCard']").within(() => {
-        const creditNames = tvCredits.map((c) => c.name);
-        const creditNamesShown = creditNames.length >= 5 ? creditNames.slice(0, 5) : creditNames;
-        cy.get("a").each(($person, index) => {
-          cy.wrap($person).contains(creditNamesShown[index]);
-        });
-      });
+      cy.checkItemDetail(tv, tvCredits);
     });
     it("displays the person name, introduction, genres and credits", () => {
       cy.visit('/people');
@@ -191,21 +143,7 @@ describe("Base tests", () => {
           throw error;
         }
       });
-      cy.get("h1").contains(person.name);
-      cy.get("p[class='summary']").contains(person.biography.replace(/<\/?.+?>/g, ""));
-      cy.get("div[class='contentDetail']").within(() => {
-        cy.get(".MuiChip-label").contains(person.known_for_department);
-      });
-      cy.get("div[class='castCard']").within(() => {
-        const creditNames = personCredits.map((c) => c.title);
-        cy.log(creditNames);
-        const creditNamesShown = creditNames.length >= 5 ? creditNames.slice(0, 5) : creditNames;
-        cy.log(creditNamesShown);
-        cy.get("a").each(($person, index) => {
-          cy.wrap($person).contains(creditNamesShown[index]);
-        });
-      });
+      cy.checkPersonDetail(person, personCredits);
     });
   });
-
 });
