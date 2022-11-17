@@ -20,8 +20,7 @@ Cypress.Commands.addAll({
   },
   clickLogoOnPC () { cy.get("a").contains("iMovies").click(); },
   clickLogoOnMobile () {
-    cy.get("a[class='MuiTypography-root MuiTypography-h5 MuiTypography-noWrap css-1lfs2tq-MuiTypography-root']")
-      .contains("iMovies").click();
+    cy.get(".MuiTypography-h5").contains("iMovies").click();
   },
   clickMore (href) {
     cy.get("div[class='sectionHeader']").find(`a[href='${href}']`).contains("MORE").click();
@@ -37,7 +36,7 @@ Cypress.Commands.addAll({
       .should("have.length", length);
   },
   checkCardTitle (items) {
-    cy.get("a[class='MuiTypography-root MuiTypography-h6 MuiTypography-gutterBottom css-17lvz15-MuiTypography-root']")
+    cy.get(".movie-card").find("a")
       .each(($card, index) => {
         cy.wrap($card).contains(items[index].title || items[index].name);
       });
