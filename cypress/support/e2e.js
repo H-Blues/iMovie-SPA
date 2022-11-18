@@ -26,3 +26,9 @@ export const filterByGenre = (movieList, genreId) =>
 
 export const filterByGenreAndTitle = (movieList, genreId, string) =>
   movieList.filter((m) => m.genre_ids.includes(genreId) && m.title.toLowerCase().search(string) !== -1);
+
+export const filterByName = (tvList, string) =>
+  tvList.filter((t) => t.name.toLowerCase().search(string) !== -1);
+
+export const filterByGenreAndName = (tvList, genreId, string) =>
+  tvList.filter((m) => m.genre_ids.includes(genreId) && m.name.toLowerCase().search(string) !== -1);
