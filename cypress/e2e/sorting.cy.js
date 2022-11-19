@@ -24,6 +24,11 @@ describe("Sorting", () => {
     it("Sort by name", () => {
       const moviesByName = sortByName(movies);
       cy.clickSortByName();
+      Cypress.on('fail', (error) => {
+        if (!error.message.includes(`find content`)) {
+          throw error;
+        }
+      });
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(moviesByName[index].title);
       });
@@ -31,6 +36,11 @@ describe("Sorting", () => {
     it("Sort by time", () => {
       const moviesByTime = sortByTime(movies);
       cy.clickSortByTime();
+      Cypress.on('fail', (error) => {
+        if (!error.message.includes(`find content`)) {
+          throw error;
+        }
+      });
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(moviesByTime[index].title);
       });
@@ -44,6 +54,11 @@ describe("Sorting", () => {
     it("Sort by name", () => {
       const tvByName = sortByName(tv_shows);
       cy.clickSortByName();
+      Cypress.on('fail', (error) => {
+        if (!error.message.includes(`find content`)) {
+          throw error;
+        }
+      });
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(tvByName[index].name);
       });
@@ -51,6 +66,11 @@ describe("Sorting", () => {
     it("Sort by time", () => {
       const tvByTime = sortByTime(tv_shows);
       cy.clickSortByTime();
+      Cypress.on('fail', (error) => {
+        if (!error.message.includes(`find content`)) {
+          throw error;
+        }
+      });
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(tvByTime[index].name);
       });
