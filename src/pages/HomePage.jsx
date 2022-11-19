@@ -1,11 +1,11 @@
-import React from 'react';
-import MovieBackdrop from '../components/movieBackdrop';
-import MovieList from '../components/movieList';
-import Spinner from '../components/spinner';
+import React, { lazy, Suspense } from 'react';
 import { getPopularMovies, getTopRatedMovies, getUpcoming, getPopularTV } from '../api/tmdbApi';
 import { useQueries } from 'react-query';
 import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+const MovieBackdrop = lazy(() => import('../components/movieBackdrop'));
+const MovieList = lazy(() => import('../components/movieList'));
+const Spinner = lazy(() => import('../components/spinner'));
 
 const HomePage = () => {
   const results = useQueries([
@@ -21,7 +21,11 @@ const HomePage = () => {
     results[2].isLoading ||
     results[3].isLoading
   ) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
 
   if (results[0].isError || results[1].isError || results[2].isError || results[3].isError) {
@@ -50,7 +54,9 @@ const HomePage = () => {
   };
   return (
     <>
-      <MovieBackdrop />
+      <Suspense>
+        <MovieBackdrop />
+      </Suspense>
       <Typography gutterBottom variant="h2" component="p" sx={{ textAlign: 'center' }}>
         Find you like
       </Typography>
@@ -67,7 +73,9 @@ const HomePage = () => {
             MORE
           </Button>
         </div>
-        <MovieList movies={popularMovies} type="movie" />
+        <Suspense>
+          <MovieList movies={popularMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -82,7 +90,9 @@ const HomePage = () => {
             MORE
           </Button>
         </div>
-        <MovieList movies={topRatedMovies} type="movie" />
+        <Suspense>
+          <MovieList movies={topRatedMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -97,7 +107,9 @@ const HomePage = () => {
             MORE
           </Button>
         </div>
-        <MovieList movies={upcoimgMovies} type="movie" />
+        <Suspense>
+          <MovieList movies={upcoimgMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -112,7 +124,9 @@ const HomePage = () => {
             MORE
           </Button>
         </div>
-        <MovieList movies={popularTV} type="tv" />
+        <Suspense>
+          <MovieList movies={popularTV} type="tv" />
+        </Suspense>
       </div>
     </>
   );

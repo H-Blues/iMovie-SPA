@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { getPopularTV } from '../../api/tmdbApi';
 import { useQuery } from 'react-query';
-import PageTemplate from '../../components/templateMovieList';
-import Spinner from '../../components/spinner';
 import Pagination from '@mui/material/Pagination';
+const PageTemplate = lazy(() => import('../../components/templateMovieList'));
+const Spinner = lazy(() => import('../../components/spinner'));
 
 const PopularTVPage = () => {
   let [page, setPage] = useState(1);
@@ -17,7 +17,11 @@ const PopularTVPage = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
   if (isError) {
     return <h1>{error.message}</h1>;
@@ -26,7 +30,9 @@ const PopularTVPage = () => {
 
   return (
     <>
-      <PageTemplate title="Popular TV" movies={movies} type="tv" />
+      <Suspense>
+        <PageTemplate title="Popular TV" movies={movies} type="tv" />
+      </Suspense>
       <Pagination
         count={10}
         page={page}

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import { getMovie, getTV } from '../../api/tmdbApi';
-import DetailTemplate from '../../components/templateMovieDetail';
-import Spinner from '../../components/spinner';
+const DetailTemplate = lazy(() => import('../../components/templateMovieDetail'));
+const Spinner = lazy(() => import('../../components/spinner'));
 
 const MovieDetailPage = ({ type }) => {
   const { id } = useParams();
@@ -23,7 +23,11 @@ const MovieDetailPage = ({ type }) => {
   } = useQuery([`${type}${id}`, { id: id }], getDetailFunction);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
 
   if (isError) {
@@ -32,7 +36,9 @@ const MovieDetailPage = ({ type }) => {
 
   return (
     <>
-      <DetailTemplate type={type} item={item} id={id} />
+      <Suspense>
+        <DetailTemplate type={type} item={item} id={id} />
+      </Suspense>
     </>
   );
 };

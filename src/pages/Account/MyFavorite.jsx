@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, lazy, Suspense } from 'react';
 import { useQueries } from 'react-query';
 import { MoviesContext } from '../../contexts/moviesContext';
 import { getMovie } from '../../api/tmdbApi';
-import Spinner from '../../components/spinner';
-import MovieCard from '../../components/movieCard';
 import { Typography } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { Scrollbar } from 'swiper';
+const MovieCard = lazy(() => import('../../components/movieCard'));
+const Spinner = lazy(() => import('../../components/spinner'));
 
 const MyFavorite = () => {
   const { movieFavorites: movieIds } = useContext(MoviesContext);
@@ -23,7 +23,11 @@ const MyFavorite = () => {
 
   const isLoading = favoriteMovieQueries.find((m) => m.isLoading === true);
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
   const movies = favoriteMovieQueries.map((q) => {
     return q.data;
@@ -67,7 +71,9 @@ const MyFavorite = () => {
           modules={[Scrollbar]}>
           {movies.map((m, i) => (
             <SwiperSlide key={i} style={{ width: '20%' }}>
-              <MovieCard key={m.id} movie={m} type="movie" />
+              <Suspense>
+                <MovieCard key={m.id} movie={m} type="movie" />
+              </Suspense>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import { getPerson } from '../../api/tmdbApi';
-import DetailTemplate from '../../components/templatePersonDetail';
-import Spinner from '../../components/spinner';
+const DetailTemplate = lazy(() => import('../../components/templatePersonDetail'));
+const Spinner = lazy(() => import('../../components/spinner'));
 
 const PersonDetailPage = () => {
   const { id } = useParams();
   const { data: p, error, isLoading, isError } = useQuery([`person${id}`, { id: id }], getPerson);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
 
   if (isError) {
@@ -19,7 +23,9 @@ const PersonDetailPage = () => {
 
   return (
     <>
-      <DetailTemplate person={p} id={id} />
+      <Suspense>
+        <DetailTemplate person={p} id={id} />
+      </Suspense>
     </>
   );
 };

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { getPeople } from '../../api/tmdbApi';
 import { useQuery } from 'react-query';
-import PageTemplate from '../../components/templatePersonList';
-import Spinner from '../../components/spinner';
 import Pagination from '@mui/material/Pagination';
+const PageTemplate = lazy(() => import('../../components/templatePersonList'));
+const Spinner = lazy(() => import('../../components/spinner'));
 
 const PopularPeoplePage = () => {
   let [page, setPage] = useState(1);
@@ -17,7 +17,11 @@ const PopularPeoplePage = () => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
   if (isError) {
     return <h1>{error.message}</h1>;
@@ -26,7 +30,9 @@ const PopularPeoplePage = () => {
 
   return (
     <>
-      <PageTemplate title="Popular People" people={people} />
+      <Suspense>
+        <PageTemplate title="Popular People" people={people} />
+      </Suspense>
       <Pagination
         count={10}
         page={page}
