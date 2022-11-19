@@ -36,7 +36,14 @@ bundle_app:
     paths:
       - build/
 
-e2etest:
+components_test:
+  image: cypress/browsers:node14.16.0-chrome90-ff88
+  stage: test
+  script:
+    - echo "Run tests in headless mode"
+    - npm run start:ci:components
+
+e2e_test:
   image: cypress/browsers:node14.16.0-chrome90-ff88
   stage: test
   script:
