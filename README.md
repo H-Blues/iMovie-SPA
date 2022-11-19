@@ -55,6 +55,8 @@ FAST_REFRESH = false
 
 ### Automated E2E Tests
 
+#### 1. Functionalities
+
 - Navigation test
   - site header menu navigation
   - navigation from home page to list page
@@ -88,7 +90,21 @@ FAST_REFRESH = false
   - sort by name in movie and tv pages
   - sort by time in movie and tv pages
 
-![e2etest](https://github.com/H-Blues/iMovie-SPA/tree/main/screenshots/e2e-test.png)
+![e2etest](https://github.com/H-Blues/iMovie-SPA/blob/main/screenshots/e2e-test.png?raw=true)
+
+#### 2. Error/Exception testing
+
+Use ` Cypress.on('fail', (error) => {})` to handle some exception. Refer to the document in Cypress webiste: [Uncaught Exceptions](https://docs.cypress.io/api/events/catalog-of-events#Examples).
+
+#### 3. Cypress Custom commands
+
+Check all custom commands in file [`cypress/support/commands.js`](https://github.com/H-Blues/iMovie-SPA/blob/main/cypress/support/commands.js). Refer to the document in Cypress website: [Custom Commands](https://docs.cypress.io/api/cypress-api/custom-commands#Syntax). Syntax used:
+
+```js
+Cypress.Commands.add(name, callbackFn);
+Cypress.Commands.add(name, options, callbackFn);
+Cypress.Commands.addAll(callbackObj);
+```
 
 ### Automated Component Tests
 
@@ -99,7 +115,7 @@ FAST_REFRESH = false
 
 ### Continuous Integration
 
-Check continuous integration configuration file: [.gitlab-ci.yml](https://github.com/H-Blues/iMovie-SPA/tree/main/.gitlab-ci.yml).
+Check continuous integration configuration file: [.gitlab-ci.yml](https://github.com/H-Blues/iMovie-SPA/blob/main/.gitlab-ci.yml).
 
 #### 1. Pipeline
 
@@ -156,7 +172,7 @@ Eight branches created in this project.
 
 Here is a screenshot of part git history:
 
-![git_history](https://github.com/H-Blues/iMovie-SPA/tree/main/screenshots/git-history-example.png)
+![git_history](https://github.com/H-Blues/iMovie-SPA/blob/main/screenshots/git-history-example.png?raw=true)
 
 > Refer to git commit message standards: https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
 
@@ -171,7 +187,7 @@ This feature is to split code into various bundles which can then be loaded on d
 Check codes in `src/pages/` and `src/index.js`
 
 The effect of code splitting can be presented as follows
-![code-splitting](https://github.com/H-Blues/iMovie-SPA/tree/main/screenshots/code-splitting.png)
+![code-splitting](https://github.com/H-Blues/iMovie-SPA/blob/main/screenshots/code-splitting.png?raw=true)
 
 ### Continuous Deployment
 
