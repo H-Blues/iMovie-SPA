@@ -23,8 +23,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "server": "http-server ./build -p 8080 -P http://localhost:8080?",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:ci:components": "start-server-and-test 'http-server ./build  -p 3000 -P http://localhost:3000?' 3000 'cypress run --component '",
+    "start:ci": "start-server-and-test 'http-server ./build  -p 3000 -P http://localhost:3000?' 3000 'cypress run --browser chrome '"
   },
   "eslintConfig": {
     "extends": [
@@ -43,5 +46,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^10.11.0",
+    "http-server": "^13.0.2",
+    "start-server-and-test": "^1.14.0"
   }
 }

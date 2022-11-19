@@ -6,21 +6,21 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-const SiteHeader = () => {
+const SiteFooter = () => {
   return (
     <footer>
       <div className="footer-limiter">
         <div className="footer-right">
-          <Link href="#" underline="none">
+          <Link href="https://www.facebook.com/" underline="none">
             <FacebookIcon />
           </Link>
-          <Link href="#" underline="none">
+          <Link href="https://twitter.com/" underline="none">
             <TwitterIcon />
           </Link>
-          <Link href="#" underline="none">
+          <Link href="https://www.instagram.com/" underline="none">
             <InstagramIcon />
           </Link>
-          <Link href="#" underline="none">
+          <Link href="https://github.com/" underline="none">
             <GitHubIcon />
           </Link>
         </div>
@@ -34,4 +34,4 @@ const SiteHeader = () => {
   );
 };
 
-export default SiteHeader;
+export default SiteFooter;

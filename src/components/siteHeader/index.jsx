@@ -11,8 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import MovieIcon from '@mui/icons-material/Movie';
 import PageMenuForPC from '../pageMenu';
 import AccountMenu from '../accountMenu';
+import { Link } from 'react-router-dom';
 
 const pages = ['Movies', 'TV_Shows', 'People'];
+const pageRoutes = ['/movie', '/tv', '/people'];
 
 const SiteHeader = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -75,11 +77,20 @@ const SiteHeader = () => {
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}>
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page, key) => {
+                let route = pageRoutes[key];
+                return (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography
+                      textAlign="center"
+                      component={Link}
+                      to={route}
+                      sx={{ textDecoration: 'none', color: 'black' }}>
+                      {page}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
           <MovieIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />

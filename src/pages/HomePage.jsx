@@ -1,23 +1,18 @@
-import React from 'react';
-import MovieBackdrop from '../components/movieBackdrop';
-import MovieList from '../components/movieList';
-import Spinner from '../components/spinner';
-import {
-  getPopularMovies,
-  getTopRatedMovies,
-  getUpcoming,
-  getPopularTV,
-} from '../api/tmdbApi';
+import React, { lazy, Suspense } from 'react';
+import { getPopularMovies, getTopRatedMovies, getUpcoming, getPopularTV } from '../api/tmdbApi';
 import { useQueries } from 'react-query';
 import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+const MovieBackdrop = lazy(() => import('../components/movieBackdrop'));
+const MovieList = lazy(() => import('../components/movieList'));
+const Spinner = lazy(() => import('../components/spinner'));
 
 const HomePage = () => {
   const results = useQueries([
-    { queryKey: ['popularMovies', 1], queryFn: getPopularMovies },
-    { queryKey: ['topRatedMovies'], queryFn: getTopRatedMovies },
-    { queryKey: ['upComingMovies'], queryFn: getUpcoming },
-    { queryKey: ['popularTV'], queryFn: getPopularTV },
+    { queryKey: ['popularMovies1', { page: 1 }], queryFn: getPopularMovies },
+    { queryKey: ['topRatedMovies1', { page: 1 }], queryFn: getTopRatedMovies },
+    { queryKey: ['upComingMovies1', { page: 1 }], queryFn: getUpcoming },
+    { queryKey: ['popularTV1', { page: 1 }], queryFn: getPopularTV },
   ]);
 
   if (
@@ -26,15 +21,14 @@ const HomePage = () => {
     results[2].isLoading ||
     results[3].isLoading
   ) {
-    return <Spinner />;
+    return (
+      <Suspense>
+        <Spinner />
+      </Suspense>
+    );
   }
 
-  if (
-    results[0].isError ||
-    results[1].isError ||
-    results[2].isError ||
-    results[3].isError
-  ) {
+  if (results[0].isError || results[1].isError || results[2].isError || results[3].isError) {
     return <h1>Error in fetching data</h1>;
   }
 
@@ -60,12 +54,10 @@ const HomePage = () => {
   };
   return (
     <>
-      <MovieBackdrop />
-      <Typography
-        gutterBottom
-        variant="h2"
-        component="p"
-        sx={{ textAlign: 'center' }}>
+      <Suspense>
+        <MovieBackdrop />
+      </Suspense>
+      <Typography gutterBottom variant="h2" component="p" sx={{ textAlign: 'center' }}>
         Find you like
       </Typography>
 
@@ -74,14 +66,16 @@ const HomePage = () => {
           <h2 style={styles.h2}>Popular Movies</h2>
           <Button
             component={Link}
-            to="/movies"
+            to="/movie"
             variant="contained"
             color="primary"
             style={styles.button}>
             MORE
           </Button>
         </div>
-        <MovieList movies={popularMovies} />
+        <Suspense>
+          <MovieList movies={popularMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -89,14 +83,16 @@ const HomePage = () => {
           <h2 style={styles.h2}>Top Rated Movies</h2>
           <Button
             component={Link}
-            to="/movies/top-rated"
+            to="/movie/top-rated"
             variant="contained"
             color="primary"
             style={styles.button}>
             MORE
           </Button>
         </div>
-        <MovieList movies={topRatedMovies} />
+        <Suspense>
+          <MovieList movies={topRatedMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -104,14 +100,16 @@ const HomePage = () => {
           <h2 style={styles.h2}>Upcoming Movies</h2>
           <Button
             component={Link}
-            to="/movies/top-rated"
+            to="/movie/upcoming"
             variant="contained"
             color="primary"
             style={styles.button}>
             MORE
           </Button>
         </div>
-        <MovieList movies={upcoimgMovies} />
+        <Suspense>
+          <MovieList movies={upcoimgMovies} type="movie" />
+        </Suspense>
       </div>
 
       <div className="section" style={{ marginBottom: '20px' }}>
@@ -126,7 +124,9 @@ const HomePage = () => {
             MORE
           </Button>
         </div>
-        <MovieList movies={popularTV} />
+        <Suspense>
+          <MovieList movies={popularTV} type="tv" />
+        </Suspense>
       </div>
     </>
   );

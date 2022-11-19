@@ -137,9 +137,25 @@ export const getTV = async (args) => {
     });
 };
 
-export const getPopularTV = async () => {
+export const getPopularTV = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
   return fetch(
-    `${baseUrl}tv/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=${lang}&page=1`
+    `${baseUrl}tv/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=${lang}&page=${page}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return response.json();
+  })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getTVGenres = async () => {
+  return fetch(
+    `${baseUrl}genre/tv/list?api_key=${process.env.REACT_APP_TMDB_KEY}&language=${lang}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
@@ -156,6 +172,55 @@ export const getPerson = async (args) => {
   const { id } = idPart;
   return fetch(
     `${baseUrl}person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=${lang}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return response.json();
+  })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getPeople = async (args) => {
+  const [, pagePart] = args.queryKey;
+  const { page } = pagePart;
+  return fetch(
+    `${baseUrl}person/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=${lang}&page=${page}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return response.json();
+  })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getCredits = async (args) => {
+  const [, typePart, idPart] = args.queryKey;
+  const { type } = typePart;
+  const { id } = idPart;
+  return fetch(
+    `${baseUrl}${type}/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return response.json();
+  })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getCombinedCredits = async (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  return fetch(
+    `${baseUrl}person/${id}/combined_credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);

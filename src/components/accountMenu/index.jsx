@@ -7,9 +7,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
 
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,7 +33,7 @@ const AccountMenu = () => {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}>
-            <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>U</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -73,15 +74,12 @@ const AccountMenu = () => {
         <MenuItem>
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem component={Link} to="/account/favourite">
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <FavoriteIcon fontSize="small" />
           </ListItemIcon>
-          Add another account
+          My Favorite
         </MenuItem>
         <MenuItem>
           <ListItemIcon>

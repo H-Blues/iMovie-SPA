@@ -1,19 +1,19 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { getUpcoming } from '../../api/tmdbApi';
+import { getPeople } from '../../api/tmdbApi';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-const PageTemplate = lazy(() => import('../../components/templateMovieList'));
+const PageTemplate = lazy(() => import('../../components/templatePersonList'));
 const Spinner = lazy(() => import('../../components/spinner'));
 
-const PopularMoviePage = () => {
+const PopularPeoplePage = () => {
   let [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   const { data, error, isLoading, isError } = useQuery(
-    [`upComingMovie${page}`, { page: page }],
-    getUpcoming
+    [`popularPeople${page}`, { page: page }],
+    getPeople
   );
 
   if (isLoading) {
@@ -26,12 +26,12 @@ const PopularMoviePage = () => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const movies = data.results;
+  const people = data.results;
 
   return (
     <>
       <Suspense>
-        <PageTemplate title="Upcoming Movies" movies={movies} type="movie" />
+        <PageTemplate title="Popular People" people={people} />
       </Suspense>
       <Pagination
         count={10}
@@ -44,4 +44,4 @@ const PopularMoviePage = () => {
     </>
   );
 };
-export default PopularMoviePage;
+export default PopularPeoplePage;

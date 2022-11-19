@@ -26,3 +26,25 @@ export const filterByGenre = (movieList, genreId) =>
 
 export const filterByGenreAndTitle = (movieList, genreId, string) =>
   movieList.filter((m) => m.genre_ids.includes(genreId) && m.title.toLowerCase().search(string) !== -1);
+
+export const filterByName = (tvList, string) =>
+  tvList.filter((t) => t.name.toLowerCase().search(string) !== -1);
+
+export const filterByGenreAndName = (tvList, genreId, string) =>
+  tvList.filter((m) => m.genre_ids.includes(genreId) && m.name.toLowerCase().search(string) !== -1);
+
+export const sortByName = (itemList) => {
+  const newList = itemList.slice().sort((a, b) => {
+    if (a.title > b.title || a.name > b.name) return 1;
+    else return -1;
+  });
+  return newList;
+};
+
+export const sortByTime = (itemList) => {
+  const newList = itemList.slice().sort((a, b) => {
+    if (a.release_date < b.release_date || a.first_air_date < b.first_air_date) return 1;
+    else return -1;
+  });
+  return newList;
+};

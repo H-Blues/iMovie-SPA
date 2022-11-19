@@ -3,47 +3,43 @@ import React, { useState } from 'react';
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState([]);
-  const [myReviews, setMyReviews] = useState({});
-  const [playlist, setPlaylist] = useState([]);
+  const [movieFavorites, setMovieFavorites] = useState([101, 13, 157336, 680]);
+  const [tvFavorites, setTvFavorites] = useState([]);
 
-  const addToFavorites = (movie) => {
+  const addToFavorites = (item, type) => {
     let newFavorites = [];
-    if (!favorites.includes(movie.id)) {
-      newFavorites = [...favorites, movie.id];
-    } else {
-      newFavorites = [...favorites];
+    if (type === 'movie') {
+      if (!movieFavorites.includes(item.id)) {
+        newFavorites = [...movieFavorites, item.id];
+      } else {
+        newFavorites = [...movieFavorites];
+      }
+      setMovieFavorites(newFavorites);
+    } else if (type === 'tv') {
+      if (!tvFavorites.includes(item.id)) {
+        newFavorites = [...tvFavorites, item.id];
+      } else {
+        newFavorites = [...tvFavorites];
+      }
+      setTvFavorites(newFavorites);
     }
-    setFavorites(newFavorites);
   };
 
-  const removeFromFavorites = (movie) => {
-    setFavorites(favorites.filter((mId) => mId !== movie.id));
-  };
-
-  const addReview = (movie, review) => {
-    setMyReviews({ ...myReviews, [movie.id]: review });
-  };
-
-  const addToPlaylist = (movie) => {
-    let newToPlay = [];
-    if (!playlist.includes(movie.id)) {
-      newToPlay = [...playlist, movie.id];
-    } else {
-      newToPlay = [...playlist];
+  const removeFromFavorites = (item, type) => {
+    if (type === 'movie') {
+      setMovieFavorites(movieFavorites.filter((mId) => mId !== item.id));
+    } else if (type === 'tv') {
+      setTvFavorites(tvFavorites.filter((tId) => tId !== item.id));
     }
-    setPlaylist(newToPlay);
   };
 
   return (
     <MoviesContext.Provider
       value={{
-        favorites,
-        playlist,
+        movieFavorites,
+        tvFavorites,
         addToFavorites,
         removeFromFavorites,
-        addReview,
-        addToPlaylist,
       }}>
       {props.children}
     </MoviesContext.Provider>

@@ -5,6 +5,7 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import defaultMovie from '../../assets/film-poster-placeholder.png';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -19,21 +20,29 @@ const styles = {
   },
 };
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, type }) => {
   const movieImg = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
   return (
     <>
       <div className="movie-card" style={{ width: 'fit-content' }}>
-        <img
-          src={movieImg}
-          style={{ maxWidth: '100%', maxHeight: 'auto', borderRadius: '20px' }}
-          alt="notFound"
-        />
+        {movie.poster_path ? (
+          <img
+            src={movieImg}
+            style={{ maxWidth: '100%', maxHeight: 'auto', borderRadius: '20px' }}
+            alt="notFound"
+          />
+        ) : (
+          <img
+            src={defaultMovie}
+            style={{ maxWidth: '100%', maxHeight: 'auto', borderRadius: '20px' }}
+            alt="notFound"
+          />
+        )}
         <Typography
           gutterBottom
           variant="h6"
           component={Link}
-          to={`/movies/${movie.id}`}
+          to={`/${type}/${movie.id}`}
           sx={{ color: 'black', textDecoration: 'none' }}>
           {movie.title || movie.name}
         </Typography>

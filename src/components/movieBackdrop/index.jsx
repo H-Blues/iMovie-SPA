@@ -7,9 +7,12 @@ import 'swiper/css';
 import './index.css';
 import { Box, Button } from '@mui/material';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 const MovieBackdrop = () => {
   const movieIds = [101, 13, 157336, 680];
+  const movieKeys = ['/Jcjel7l_7mQ', '/d6A38n0W4u4', '/KlyknsTJk0w', '/tGpTpVyI_OQ'];
+
   var { data: mc1, isLoading: l1 } = useQuery(['mc1', { id: movieIds[0] }], getMovie);
   var { data: mc2, isLoading: l2 } = useQuery(['mc2', { id: movieIds[1] }], getMovie);
   var { data: mc3, isLoading: l3 } = useQuery(['mc3', { id: movieIds[2] }], getMovie);
@@ -20,6 +23,7 @@ const MovieBackdrop = () => {
   }
 
   const imgUrl = 'https://www.themoviedb.org/t/p/original';
+  const videoUrl = 'https://www.youtube.com/embed';
 
   return (
     <>
@@ -43,10 +47,21 @@ const MovieBackdrop = () => {
                   <h1>{mc1.original_title}</h1>
                   <p>{mc1.overview}</p>
                   <div className="buttonRow">
-                    <Button className="btn" variant="contained" color="error" size="large">
+                    <Button
+                      href={videoUrl + movieKeys[0]}
+                      className="btn"
+                      variant="contained"
+                      color="error"
+                      size="large">
                       Watch Now
                     </Button>
-                    <Button className="btn" variant="outlined" color="error" size="large">
+                    <Button
+                      component={Link}
+                      to={`/movie/${movieIds[0]}`}
+                      className="btn"
+                      variant="outlined"
+                      color="error"
+                      size="large">
                       Details
                     </Button>
                   </div>
@@ -68,10 +83,21 @@ const MovieBackdrop = () => {
                   <h1>{mc2.original_title}</h1>
                   <p>{mc2.overview}</p>
                   <div className="buttonRow">
-                    <Button className="btn" variant="contained" color="error" size="large">
+                    <Button
+                      href={videoUrl + movieKeys[1]}
+                      className="btn"
+                      variant="contained"
+                      color="error"
+                      size="large">
                       Watch Now
                     </Button>
-                    <Button className="btn" variant="outlined" color="error" size="large">
+                    <Button
+                      component={Link}
+                      to={`/movie/${movieIds[1]}`}
+                      className="btn"
+                      variant="outlined"
+                      color="error"
+                      size="large">
                       Details
                     </Button>
                   </div>
@@ -93,10 +119,21 @@ const MovieBackdrop = () => {
                   <h1>{mc3.original_title}</h1>
                   <p>{mc3.overview}</p>
                   <div className="buttonRow">
-                    <Button className="btn" variant="contained" color="error" size="large">
+                    <Button
+                      href={videoUrl + movieKeys[2]}
+                      className="btn"
+                      variant="contained"
+                      color="error"
+                      size="large">
                       Watch Now
                     </Button>
-                    <Button className="btn" variant="outlined" color="error" size="large">
+                    <Button
+                      component={Link}
+                      to={`/movie/${movieIds[2]}`}
+                      className="btn"
+                      variant="outlined"
+                      color="error"
+                      size="large">
                       Details
                     </Button>
                   </div>
@@ -118,10 +155,21 @@ const MovieBackdrop = () => {
                   <h1>{mc4.original_title}</h1>
                   <p>{mc4.overview}</p>
                   <div className="buttonRow">
-                    <Button className="btn" variant="contained" color="error" size="large">
+                    <Button
+                      href={videoUrl + movieKeys[3]}
+                      className="btn"
+                      variant="contained"
+                      color="error"
+                      size="large">
                       Watch Now
                     </Button>
-                    <Button className="btn" variant="outlined" color="error" size="large">
+                    <Button
+                      component={Link}
+                      to={`/movie/${movieIds[3]}`}
+                      className="btn"
+                      variant="outlined"
+                      color="error"
+                      size="large">
                       Details
                     </Button>
                   </div>
