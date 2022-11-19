@@ -3,7 +3,7 @@ import { sortByName, sortByTime } from "../support/e2e";
 let movies;
 let tv_shows;
 
-describe("Filtering", () => {
+describe("Sorting", () => {
   before(() => {
     cy.request(
       `https://api.themoviedb.org/3/movie/popular?api_key=${Cypress.env("TMDB_KEY")}&language=en-US&page=1`
@@ -23,16 +23,14 @@ describe("Filtering", () => {
     });
     it("Sort by name", () => {
       const moviesByName = sortByName(movies);
-      cy.get("#sort-select").click();
-      cy.get("li").contains("Sort By Name").click();
+      cy.clickSortByName();
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(moviesByName[index].title);
       });
     });
     it("Sort by time", () => {
       const moviesByTime = sortByTime(movies);
-      cy.get("#sort-select").click();
-      cy.get("li").contains("Sort By Time").click();
+      cy.clickSortByTime();
       cy.get(".movie-card").each(($card, index) => {
         cy.wrap($card).find("a").contains(moviesByTime[index].title);
       });
@@ -44,19 +42,17 @@ describe("Filtering", () => {
       cy.visit("/tv");
     });
     it("Sort by name", () => {
-      const tvByName = sortByName(movies);
-      cy.get("#sort-select").click();
-      cy.get("li").contains("Sort By Name").click();
+      const tvByName = sortByName(tv_shows);
+      cy.clickSortByName();
       cy.get(".movie-card").each(($card, index) => {
-        cy.wrap($card).find("a").contains(tvByName[index].title);
+        cy.wrap($card).find("a").contains(tvByName[index].name);
       });
     });
     it("Sort by time", () => {
-      const tvByTime = sortByTime(movies);
-      cy.get("#sort-select").click();
-      cy.get("li").contains("Sort By Time").click();
+      const tvByTime = sortByTime(tv_shows);
+      cy.clickSortByTime();
       cy.get(".movie-card").each(($card, index) => {
-        cy.wrap($card).find("a").contains(tvByTime[index].title);
+        cy.wrap($card).find("a").contains(tvByTime[index].name);
       });
     });
   });

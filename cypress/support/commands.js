@@ -76,3 +76,15 @@ Cypress.Commands.addAll({
     });
   }
 });
+
+// sorting e2e test
+Cypress.Commands.addAll({
+  clickSortByName () {
+    cy.get("#sort-select").click();
+    cy.get("li").contains("Sort By Name").click();
+  },
+  clickSortByTime (itemList) {
+    cy.get("#sort-select").click();
+    cy.get("li").contains("Sort By Time").click();
+  }
+});
