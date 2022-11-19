@@ -4,8 +4,10 @@ import MovieFilter from '../filter/movieFilter';
 import TvFilter from '../filter/tvFilter';
 import MovieCard from '../movieCard';
 import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
 
 function MovieListPage({ movies, title, type }) {
+  const navigate = useNavigate();
   const [nameFilter, setNameFilter] = useState('');
   const [genreFilter, setGenreFilter] = useState('0');
   const [sortFilter, setSortFilter] = useState('0');
@@ -44,7 +46,7 @@ function MovieListPage({ movies, title, type }) {
     <>
       <Grid container sx={{ padding: '20px' }}>
         <Grid item xs={12}>
-          <Header title={title} />
+          <Header title={title} goBack={navigate(-1)} goForward={navigate(1)} />
         </Grid>
         <Grid item container spacing={2}>
           <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
