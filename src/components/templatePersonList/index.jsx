@@ -1,16 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Header from '../headerMovieList';
 import Grid from '@mui/material/Grid';
 import PersonCard from '../personCard';
 
 function PeopleListPage({ people, title }) {
-  const navigate = useNavigate();
   return (
     <>
       <Grid container sx={{ padding: '20px' }}>
         <Grid item xs={12}>
-          <Header title={title} goBack={navigate(-1)} goForward={navigate(1)} />
+          <Header title={title} />
         </Grid>
         <Grid item container spacing={2}>
           {people.map((p) => (

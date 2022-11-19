@@ -5,6 +5,7 @@ stages:
   - install
   - build
   - test
+  - deploy
 
 variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
@@ -39,6 +40,8 @@ bundle_app:
 components_test:
   image: cypress/browsers:node14.16.0-chrome90-ff88
   stage: test
+  only:
+    - main
   script:
     - echo "Run tests in headless mode"
     - npm run start:ci:components
@@ -46,6 +49,15 @@ components_test:
 e2e_test:
   image: cypress/browsers:node14.16.0-chrome90-ff88
   stage: test
+  only:
+    - main
   script:
     - echo "Run tests in headless mode"
     - npm run start:ci
+
+netlify:
+  stage: deploy
+  only:
+    - main
+  script:
+    - echo "Visit this project at https://imovies-zihan.netlify.app/"
