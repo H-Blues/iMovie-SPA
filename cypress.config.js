@@ -7,9 +7,6 @@ module.exports = defineConfig({
     baseUrl: "http://localhost:3000/",
     viewportWidth: 1980,
     viewportHeight: 1080,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
   },
 
   component: {
@@ -17,5 +14,6 @@ module.exports = defineConfig({
       framework: "create-react-app",
       bundler: "webpack",
     },
+    specPattern: "src/components/**/*.cy.{js,jsx,ts,tsx}"
   },
 });
