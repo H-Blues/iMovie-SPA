@@ -182,6 +182,8 @@ This is changed by Yifei Ma.
 
 This is changed by Yimeng Yang
 
+This is changed by Haoxuan Gu
+
 ### Bundling & Code splitting
 
 This feature is to split code into various bundles which can then be loaded on demand or in parallel.
